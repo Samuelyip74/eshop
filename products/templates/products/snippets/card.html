@@ -7,10 +7,12 @@
       <p class="card-text">{{ instance.description|linebreaks|truncatewords:14 }}</p>
       
       <div class='text-center'>
-          {% if instance.image %}
 
           <!--<a href="{{ instance.get_absolute_url }}" class="btn btn-primary my-2">View</a>-->
+          {% if instance.img %}
+
           {% include 'products/snippets/update-cart.html' with product=instance cart=cart %}
+
           {% endif %}
 
       </div>
