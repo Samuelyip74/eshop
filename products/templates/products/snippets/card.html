@@ -1,23 +1,33 @@
-<div class="card" style="width: 20rem;">
+<div class="single-product">
     {% if instance.image %}
-      <!--<a href="{{ instance.get_absolute_url }}"><img class="card-img-top" src="{{ instance.image.url }}" alt="{{ instance.title}} logo"></a>-->
+      <a href="{{ instance.get_absolute_url }}">
+        <img class="img-fluid" src="{{ instance.image.url }}" alt="{{ instance.title}} " height="42px" width="20px"></a>
       {% endif %}
-    <div class="card-body">
-      <h4 class="card-title">{{ instance.title }}</h4>
-      <p class="card-text">{{ instance.description|linebreaks|truncatewords:14 }}</p>
-      
-      <div class='text-center'>
-
-          <!--<a href="{{ instance.get_absolute_url }}" class="btn btn-primary my-2">View</a>-->
-          {% if instance.img %}
-
-          {% include 'products/snippets/update-cart.html' with product=instance cart=cart %}
-
-          {% endif %}
-
+    <div class="product-details">
+      <h6>{{ instance.title }}<br>
+      <div class="price">
+        <h6>$50.00</h6>
+        <h6 class="l-through">{{ instance.price }}</h6>
       </div>
+      <div class="prd-bottom">
 
-       <a href="{% url 'products:detail' slug=instance.slug  %}" class="btn btn-warning">URL shortcut</a>
-
+        <a href="" class="social-info">
+          <span class="ti-bag"></span>
+          <p class="hover-text">add to bag</p>
+        </a>
+        <a href="" class="social-info">
+          <span class="lnr lnr-heart"></span>
+          <p class="hover-text">Wishlist</p>
+        </a>
+        <a href="{{ instance.get_absolute_url }}" class="social-info">
+          <span class="lnr lnr-move"></span>
+          <p class="hover-text">view more</p>
+        </a>
+      </div>
+      <div class='text-center'>
+          {% if instance.img %}
+          {% include 'products/snippets/update-cart.html' with product=instance cart=cart %}
+          {% endif %}
+      </div>
     </div>
-  </div>
+</div>
