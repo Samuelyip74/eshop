@@ -14,3 +14,7 @@
     line-height: 5px !important;
     text-align: center;
 }
+
+.sticky-wrapper {
+    top:0 !important;
+}
