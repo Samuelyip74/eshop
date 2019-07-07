@@ -1,0 +1,16 @@
+.cart{
+    position: relative;
+    color: gray;
+}
+.cart span{
+    background:red;
+    border-radius: 999px;
+    position: absolute;
+    padding: 5px;
+    font-size:10px;
+    color:white !important;
+    top: -8px;
+    right: -8px; 
+    line-height: 5px !important;
+    text-align: center;
+}

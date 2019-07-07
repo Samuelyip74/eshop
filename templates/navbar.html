@@ -43,15 +43,19 @@
                 </li>
                 <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="nav-item"><a href="{% url 'cart:home' %}" class="cart">
-                    {% if request.session.cart_items > 0 %} 
-                        ({{ request.session.cart_items }}) <i class="fas fa-shopping-cart"></i>
-                    {% endif %}
-                    </a>
+            <ul class="nav navbar-nav navbar-right" >
+                <li class="nav-item" >
+                        <a href="{% url 'cart:home' %}">
+                        <div class="cart">
+                                <i class="fa" style="font-size:20px">&#xf07a;</i>
+                                {% if request.session.cart_items > 0 %}
+                                <span> {{ request.session.cart_items }} </span>
+                                {% endif %}
+                                </div>
+                        </a>
                 </li>
-                <li class="nav-item">
-                    <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+                <li class="nav-item" >
+                    <button class="search" ><span style="line-height: 0 !important" class="lnr lnr-magnifier" id="search"></span></button>
                 </li>
             </ul>
         </div>
