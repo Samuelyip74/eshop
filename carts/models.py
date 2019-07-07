@@ -52,23 +52,22 @@ class Cart(models.Model):
     #         return False
     #     return True
 
-def m2m_changed_save_cart_receiver(sender, instance, action, *args, **kwargs):
+def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):
     if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
         products = instance.products.all()
-        subtotal = 0
-        for product in products:
-            subtotal += product.price
-        if instance.subtotal != instance.total:
-            instance.subtotal = subtotal
+        total = 0
+        for x in products:
+            total += x.price
+        if instance.subtotal != total:
+            instance.subtotal = total
             instance.save()
 
-
-m2m_changed.connect(m2m_changed_save_cart_receiver, sender=Cart.products.through)
+m2m_changed.connect(m2m_changed_cart_receiver, sender=Cart.products.through)
 
 def pre_save_cart_receiver(sender, instance, *args, **kwargs):
     if instance.subtotal > 0:
-        instance.total = instance.subtotal
+        instance.total = Decimal(instance.subtotal) * Decimal(1.08) # 8% tax
     else:
-        instance.total = 0
+        instance.total = 0.00
 
 pre_save.connect(pre_save_cart_receiver, sender=Cart)
