@@ -4,7 +4,9 @@
         <img class="img-fluid" src="{{ instance.image.url }}" alt="{{ instance.title}} " height="42px" width="20px"></a>
       {% endif %}
     <div class="product-details">
-      <h6>{{ instance.title }}<br>
+      <h6>{{ instance.title }}<br></h6>
+      <h7>{{ instance.description|truncatewords:12 }}</h7>
+
       <div class="price">
         <h6>$50.00</h6>
         <h6 class="l-through">{{ instance.price }}</h6>
