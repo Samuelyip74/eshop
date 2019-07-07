@@ -10,7 +10,7 @@ from django.utils import timezone
 # from addresses.models import Address
 # from billing.models import BillingProfile
 from carts.models import Cart
-# from eshop.utils import unique_order_id_generator
+from eshop.utils import unique_order_id_generator
 from products.models import Product
 
 ORDER_STATUS_CHOICES = (
@@ -145,14 +145,14 @@ class Order(models.Model):
 #             return "Shipped"
 #         return "Shipping Soon"
 
-#     def update_total(self):
-#         cart_total = self.cart.total
-#         shipping_total = self.shipping_total
-#         new_total = math.fsum([cart_total, shipping_total])
-#         formatted_total = format(new_total, '.2f')
-#         self.total = formatted_total
-#         self.save()
-#         return new_total
+    def update_total(self):
+        cart_total = self.cart.total
+        shipping_total = self.shipping_total
+        new_total = math.fsum([cart_total, shipping_total])
+        formatted_total = format(new_total, '.2f')
+        self.total = formatted_total
+        self.save()
+        return new_total
 
 #     def check_done(self):
 #         shipping_address_required = not self.cart.is_digital
@@ -188,44 +188,43 @@ class Order(models.Model):
 #         return self.status
 
 
-# def pre_save_create_order_id(sender, instance, *args, **kwargs):
-#     if not instance.order_id:
-#         instance.order_id = unique_order_id_generator(instance)
-#     qs = Order.objects.filter(cart=instance.cart).exclude(billing_profile=instance.billing_profile)
-#     if qs.exists():
-#         qs.update(active=False)
+def pre_save_create_order_id(sender, instance, *args, **kwargs):
+    if not instance.order_id:
+        instance.order_id = unique_order_id_generator(instance)
+    # qs = Order.objects.filter(cart=instance.cart).exclude(billing_profile=instance.billing_profile)
+    # if qs.exists():
+    #     qs.update(active=False)
 
-#     if instance.shipping_address and not instance.shipping_address_final:
-#         instance.shipping_address_final = instance.shipping_address.get_address()
+    # if instance.shipping_address and not instance.shipping_address_final:
+    #     instance.shipping_address_final = instance.shipping_address.get_address()
 
-#     if instance.billing_address and not instance.billing_address_final:
-#         instance.billing_address_final = instance.billing_address.get_address()
-
-
-# pre_save.connect(pre_save_create_order_id, sender=Order)
+    # if instance.billing_address and not instance.billing_address_final:
+    #     instance.billing_address_final = instance.billing_address.get_address()
 
 
-# def post_save_cart_total(sender, instance, created, *args, **kwargs):
-#     if not created:
-#         cart_obj = instance
-#         cart_total = cart_obj.total
-#         cart_id = cart_obj.id
-#         qs = Order.objects.filter(cart__id=cart_id)
-#         if qs.count() == 1:
-#             order_obj = qs.first()
-#             order_obj.update_total()
-
-# post_save.connect(post_save_cart_total, sender=Cart)
+pre_save.connect(pre_save_create_order_id, sender=Order)
 
 
-# def post_save_order(sender, instance, created, *args, **kwargs):
-#     #print("running")
-#     if created:
-#         print("Updating... first")
-#         instance.update_total()
+def post_save_cart_total(sender, instance, created, *args, **kwargs):
+    if not created:
+        cart_obj = instance
+        cart_total = cart_obj.total
+        cart_id = cart_obj.id
+        qs = Order.objects.filter(cart__id=cart_id)
+        if qs.count() == 1:
+            order_obj = qs.first()
+            order_obj.update_total()
+
+post_save.connect(post_save_cart_total, sender=Cart)
 
 
-# post_save.connect(post_save_order, sender=Order)
+def post_save_order(sender, instance, created, *args, **kwargs):
+    #print("running")
+    if created:
+        print("Updating... first")
+        instance.update_total()
+
+post_save.connect(post_save_order, sender=Order)
 
 
 
