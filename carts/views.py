@@ -9,7 +9,10 @@ def cart_home(request):
     return render(request, "carts/home.html", {"cart": cart_obj})
 
 def cart_update(request):
-    product_id = request.POST.get('product_id')
+    if request.POST.get('product_id') is not None:
+        product_id = request.POST.get('product_id')
+    elif request.GET.get('product_id') is not None:
+        product_id = request.GET.get('product_id')
     
     if product_id is not None:
         try:

@@ -73,7 +73,7 @@
 					font-weight: 500;
 					color: $title-color;
 					@media (min-width: 991px) {
-						padding: 10px 0;
+						padding: 0 0; //padding: 10px 0;
 					}
 					&:after {
 						display: none;

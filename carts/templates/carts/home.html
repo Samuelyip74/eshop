@@ -11,10 +11,11 @@
 <table class="table cart-table">
   <thead>
     <tr>
-      <th>#</th>
-      <th>Product Name</th>
-      <th>Product Price</th>
-      <th>Remove</th>
+      <th width="50px">Item</th>
+      <th width="150px">Product Name</th>
+      <th width="500px">Description</th>
+      <th width="100px">Price</th>
+      <th width="50px">Delete</th>
     </tr>
   </thead>
   <tbody class='cart-body'>
@@ -22,21 +23,24 @@
     <tr class='cart-product'>
       <th scope="row">{{ forloop.counter }}</th>
       <td><a href='{{ product.get_absolute_url }}'>{{ product.title }}</a> </td>
-      <td>{{ product.price }}</td>
+      <td>{{ product.description|truncatewords:20 }}</td>
+      <td>${{ product.price }}</td>
       <td>{% include 'carts/snippets/remove-product.html' with product_id=product.id %}</td>
     </tr>
     {% endfor %}
     <tr>
       <td colspan="2"></td>
-      <td colspan="2"><b>Subtotal</b> $<span class='cart-subtotal'>{{ cart.subtotal }}</span></td>
+      <td align="right"><b>Subtotal</b></td>
+      <td colspan="2">$<span class='cart-subtotal'>{{ cart.subtotal }}</span></td>
     </tr>
     <tr>
       <td colspan="2"></td>
-      <td colspan="2"><b>Total</b> $<span class='cart-total'>{{ cart.total }}</span></td>
+      <td align="right"><b>Total</b></td>
+      <td colspan="2">$<span class='cart-total'>{{ cart.total }}</span></td>
     </tr>
     <tr>
-      <td colspan="2"></td>
-      <td colspan="2"><a class='btn btn-lg btn-success' href='{% url "cart:checkout" %}'>Checkout</a></td>
+      <td colspan="3"></td>
+      <td colspan="3"><a class='btn btn-lg btn-success' href='{% url "cart:checkout" %}'>Checkout</a></td>
     </tr>
 
   </tbody>

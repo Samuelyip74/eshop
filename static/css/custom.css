@@ -18,3 +18,15 @@
 .sticky-wrapper {
     top:0 !important;
 }
+
+@media (min-width: 991px){
+    .header_area .navbar .nav .nav-item .nav-link {
+        padding: 0 10px 0 !important;
+    }
+}
+
+@media (min-width: 992px){
+    .header_area .navbar .nav .nav-item.submenu ul {
+        top: 130% !important;
+    }
+}

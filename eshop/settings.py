@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     #our apps
+    'accounts',
     'products',
     'carts',
     'orders',
@@ -55,6 +56,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'eshop.urls'
+LOGOUT_REDIRECT_URL = '/'
 
 TEMPLATES = [
     {
