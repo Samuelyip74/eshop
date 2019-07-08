@@ -12,6 +12,7 @@ from django.utils import timezone
 from carts.models import Cart
 from eshop.utils import unique_order_id_generator
 from products.models import Product
+from billing.models import BillingProfile
 
 ORDER_STATUS_CHOICES = (
     ('created', 'Created'),
@@ -113,7 +114,7 @@ ORDER_STATUS_CHOICES = (
 
 # Random, Unique
 class Order(models.Model):
-    # billing_profile     = models.ForeignKey(BillingProfile, null=True, blank=True)
+    billing_profile     = models.ForeignKey(BillingProfile, null=True, blank=True,on_delete='CASCADE')
     order_id            = models.CharField(max_length=120, blank=True) # AB31DE3
     # shipping_address    = models.ForeignKey(Address, related_name="shipping_address",null=True, blank=True)
     # billing_address     = models.ForeignKey(Address, related_name="billing_address", null=True, blank=True)
@@ -123,7 +124,7 @@ class Order(models.Model):
     status              = models.CharField(max_length=120, default='created', choices=ORDER_STATUS_CHOICES)
     shipping_total      = models.DecimalField(default=10.00, max_digits=100, decimal_places=2)
     total               = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
-    # active              = models.BooleanField(default=True)
+    active              = models.BooleanField(default=True)
     # updated             = models.DateTimeField(auto_now=True)
     # timestamp           = models.DateTimeField(auto_now_add=True)
 
