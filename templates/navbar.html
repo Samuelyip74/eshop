@@ -41,22 +41,38 @@
                         <li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="/products/">Products</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" >
+
+                {% if request.user.is_authenticated %}
+                <li class="nav-item submenu dropdown"style="margin-left: 25px !important;">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                         aria-expanded="false">Account</a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item"><a class="nav-link" href="">Profile</a></li>
+                            <li class="nav-item"><a class="nav-link" href="">Service</a></li>
+                            <li class="nav-item"><a class="nav-link" href="">Invoice</a></li>
+                            <li class="nav-item"><a class="nav-link" href="">Order History</a></li>
+                            <li class="nav-item"><a class="nav-link" href="">Tickets</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                    </li>                
+                {% else %}
+                <li class="nav-item" >
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Login</a></li>
+                </li>
+                {% endif %}
+                {% if request.session.cart_items > 0 %}
                 <li class="nav-item" >
                         <a href="{% url 'cart:home' %}">
                         <div class="cart">
-                                <i class="fa" style="font-size:20px">&#xf07a;</i>
-                                {% if request.session.cart_items > 0 %}
+                                <i class="fa" style="font-size:18px">&#xf07a;</i>
                                 <span> {{ request.session.cart_items }} </span>
-                                {% endif %}
                                 </div>
                         </a>
                 </li>
-                <li class="nav-item" >
-                    <button class="search" ><span style="line-height: 0 !important" class="lnr lnr-magnifier" id="search"></span></button>
-                </li>
+                {% endif %}
             </ul>
         </div>
     </div>

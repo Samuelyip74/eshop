@@ -19,6 +19,14 @@
     top:0 !important;
 }
 
+.header_area .navbar .nav.navbar-nav.navbar-right li:first-child {
+    margin-left: 0px !important;
+}
+
+.header_area .navbar {
+    height: 80px;
+}
+
 @media (min-width: 991px){
     .header_area .navbar .nav .nav-item .nav-link {
         padding: 0 10px 0 !important;
@@ -30,3 +38,4 @@
         top: 130% !important;
     }
 }
+

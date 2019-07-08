@@ -1,7 +1,10 @@
 from django.shortcuts import render,redirect
+from accounts.forms import LoginForm, GuestForm
+from accounts.models import GuestEmail
 from orders.models import Order
 from products.models import Product
 from .models import Cart
+from billing.models import BillingProfile
 
 
 def cart_home(request):
@@ -45,7 +48,20 @@ def checkout_home(request):
     order_obj = None
     if cart_created or cart_obj.products.count() == 0:
         return redirect("cart:home")  
-    
+    else:
+        order_obj, order_obj_created = Order.objects.get_or_create(cart=cart_obj)
+    user=request.user
+    billing_profile = None
+    login_form = LoginForm()
+    guest_form = GuestForm()
+    guest_email_id = request.session.get('guest_email_id')
+    if user.is_authenticated:
+        billing_profile, billing_profile_created = BillingProfile.objects.get_or_create(user=user, email=user.email)
+    elif guest_email_id is not None:
+        guest_email_obj = GuestEmail.objects.get(id=guest_email_id)
+        billing_profile, billing_guest_profile_created = BillingProfile.objects.get_or_create(email=guest_email_obj.email)
+    else:
+        pass
     # login_form = LoginForm(request=request)
     # guest_form = GuestForm(request=request)
     # address_form = AddressCheckoutForm()
@@ -91,13 +107,13 @@ def checkout_home(request):
     #         else:
     #             print(crg_msg)
     #             return redirect("cart:checkout")
-    order_obj, order_obj_created = Order.objects.get_or_create(cart=cart_obj)
+    
 
     context = {
         "object": order_obj,
-        # "billing_profile": billing_profile,
-        # "login_form": login_form,
-        # "guest_form": guest_form,
+        "billing_profile": billing_profile,
+        "login_form": login_form,
+        "guest_form": guest_form,
         # "address_form": address_form,
         # "address_qs": address_qs,
         # "has_card": has_card,

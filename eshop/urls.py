@@ -5,6 +5,7 @@ from django.conf.urls import url
 from django.urls import path,include
 from django.contrib.auth.views import LogoutView
 from django.views.generic import TemplateView, RedirectView
+from accounts.views import guest_register_view
 
 
 from .views import home
@@ -16,6 +17,7 @@ urlpatterns = [
     # url(r'^account/', include("accounts.urls", namespace='account')),
     # url(r'^accounts/', include("accounts.passwords.urls")),
     url(r'^logout/$', LogoutView.as_view(), name='logout'),
+    url(r'^register/guest/$', guest_register_view, name='guest_register'),
     url(r'^products/',include('products.urls')),
     url(r'^cart/',include('carts.urls')),
     url(r'^$',home, name='homepage'),
