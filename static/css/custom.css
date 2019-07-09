@@ -23,8 +23,14 @@
     margin-left: 0px !important;
 }
 
-.header_area .navbar {
-    height: 80px;
+.banner-area .active-banner-slider .owl-nav {
+    bottom: -100px;
+}
+
+@media (min-width: 991px){
+    .header_area .navbar {
+        height: 80px;
+    }
 }
 
 @media (min-width: 991px){
