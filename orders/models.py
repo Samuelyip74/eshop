@@ -13,6 +13,7 @@ from carts.models import Cart
 from eshop.utils import unique_order_id_generator
 from products.models import Product
 from billing.models import BillingProfile
+from addresses.models import Address
 
 ORDER_STATUS_CHOICES = (
     ('created', 'Created'),
@@ -110,14 +111,24 @@ ORDER_STATUS_CHOICES = (
 #             created = True
 #         return obj, created
 
+class OrderManager(models.Manager):
+    def new_or_get(self,billing_profile,cart_obj):
+        created = False
+        qs = self.get_queryset().filter(billing_profile=billing_profile, cart=cart_obj, active=True)
+        if qs.count() == 1:
+            obj = qs.first()
+        else:
+            obj = self.model.objects.create(billing_profile=billing_profile, cart=cart_obj)
+            created = True
+        return obj, created
 
 
 # Random, Unique
 class Order(models.Model):
     billing_profile     = models.ForeignKey(BillingProfile, null=True, blank=True,on_delete='CASCADE')
     order_id            = models.CharField(max_length=120, blank=True) # AB31DE3
-    # shipping_address    = models.ForeignKey(Address, related_name="shipping_address",null=True, blank=True)
-    # billing_address     = models.ForeignKey(Address, related_name="billing_address", null=True, blank=True)
+    shipping_address    = models.ForeignKey(Address, related_name="shipping_address",null=True, blank=True,on_delete='CASCADE')
+    billing_address     = models.ForeignKey(Address, related_name="billing_address", null=True, blank=True,on_delete='CASCADE')
     # shipping_address_final    = models.TextField(blank=True, null=True)
     # billing_address_final     = models.TextField(blank=True, null=True)
     cart                = models.ForeignKey(Cart, on_delete='CASCADE')
@@ -131,7 +142,7 @@ class Order(models.Model):
     def __str__(self):
         return self.order_id
 
-    # objects = OrderManager()
+    objects = OrderManager()
 
     # class Meta:
     #    ordering = ['-timestamp', '-updated']
@@ -192,9 +203,9 @@ class Order(models.Model):
 def pre_save_create_order_id(sender, instance, *args, **kwargs):
     if not instance.order_id:
         instance.order_id = unique_order_id_generator(instance)
-    # qs = Order.objects.filter(cart=instance.cart).exclude(billing_profile=instance.billing_profile)
-    # if qs.exists():
-    #     qs.update(active=False)
+    qs = Order.objects.filter(cart=instance.cart).exclude(billing_profile=instance.billing_profile)
+    if qs.exists():
+        qs.update(active=False)
 
     # if instance.shipping_address and not instance.shipping_address_final:
     #     instance.shipping_address_final = instance.shipping_address.get_address()
