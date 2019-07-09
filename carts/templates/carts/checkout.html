@@ -32,6 +32,10 @@
                 <p>Cart Total: {{ object.cart.total }}</p>
                 <p>Shipping Total: {{ object.shipping.total }}</p>
                 <p>Order Total: {{ object.total }}</p>
+                <form class="form" method="POST" action="">  
+                    {% csrf_token %}
+                    <button class="btn btn-primary">Make Payment</button>
+                </form>
         {% endif %}  
     </DIV>
 

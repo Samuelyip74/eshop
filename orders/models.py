@@ -114,7 +114,7 @@ ORDER_STATUS_CHOICES = (
 class OrderManager(models.Manager):
     def new_or_get(self,billing_profile,cart_obj):
         created = False
-        qs = self.get_queryset().filter(billing_profile=billing_profile, cart=cart_obj, active=True)
+        qs = self.get_queryset().filter(billing_profile=billing_profile, cart=cart_obj, active=True,status='created')
         if qs.count() == 1:
             obj = qs.first()
         else:
@@ -166,38 +166,39 @@ class Order(models.Model):
         self.save()
         return new_total
 
-#     def check_done(self):
-#         shipping_address_required = not self.cart.is_digital
-#         shipping_done = False
-#         if shipping_address_required and self.shipping_address:
-#             shipping_done = True
-#         elif shipping_address_required and not self.shipping_address:
-#             shipping_done = False
-#         else:
-#             shipping_done = True
-#         billing_profile = self.billing_profile
-#         billing_address = self.billing_address
-#         total   = self.total
-#         if billing_profile and shipping_done and billing_address and total > 0:
-#             return True
-#         return False
+    def check_done(self):
+        # shipping_address_required = not self.cart.is_digital
+        # shipping_done = False
+        # if shipping_address_required and self.shipping_address:
+        #     shipping_done = True
+        # elif shipping_address_required and not self.shipping_address:
+        #     shipping_done = False
+        # else:
+        #     shipping_done = True
+        shipping_done = True
+        billing_profile = self.billing_profile
+        billing_address = self.billing_address
+        total   = self.total
+        if billing_profile and shipping_done and billing_address and total > 0:
+            return True
+        return False
 
-#     def update_purchases(self):
-#         for p in self.cart.products.all():
-#             obj, created = ProductPurchase.objects.get_or_create(
-#                     order_id=self.order_id,
-#                     product=p,
-#                     billing_profile=self.billing_profile
-#                 )
-#         return ProductPurchase.objects.filter(order_id=self.order_id).count()
+    # def update_purchases(self):
+    #     for p in self.cart.products.all():
+    #         obj, created = ProductPurchase.objects.get_or_create(
+    #                 order_id=self.order_id,
+    #                 product=p,
+    #                 billing_profile=self.billing_profile
+    #             )
+    #     return ProductPurchase.objects.filter(order_id=self.order_id).count()
 
-#     def mark_paid(self):
-#         if self.status != 'paid':
-#             if self.check_done():
-#                 self.status = "paid"
-#                 self.save()
-#                 self.update_purchases()
-#         return self.status
+    def mark_paid(self):
+        if self.status != 'paid':
+            if self.check_done():
+                self.status = "paid"
+                self.save()
+                #self.update_purchases()
+        return self.status
 
 
 def pre_save_create_order_id(sender, instance, *args, **kwargs):

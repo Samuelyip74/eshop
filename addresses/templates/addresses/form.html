@@ -1,6 +1,7 @@
 <form method='POST' action='{% if action_url %}{{ action_url }}{% else %}{% url "accounts:login" %}{% endif %}'>
         {% if next_url %}
         <input type='hidden' name='next' value='{{ next_url }}'/>
+        <input type='hidden' name='address_type' value='{{ address_type }}'/>
         {% endif %}
             {% csrf_token %}
             {{ form.as_p }}
