@@ -135,7 +135,7 @@ def checkout_home(request):
         "login_form": login_form,
         "guest_form": guest_form,
         "address_form": address_form,
-        # "address_qs": address_qs,
+        "address_qs": address_qs,
         # "has_card": has_card,
         # "publish_key": STRIPE_PUB_KEY,
         # "shipping_address_required": shipping_address_required,
