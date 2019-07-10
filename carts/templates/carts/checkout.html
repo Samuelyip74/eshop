@@ -23,6 +23,17 @@
                 <p>Shipping Address</p>
                 {% url "checkout_address_create" as checkout_address_create_url %}
                 {% include 'addresses/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create_url address_type='shipping' %}
+                {% if address_qs.exists %}
+                    <form method="POST" action="">
+                    {% for address in address_qs %}
+                        <label for='address-{{ address.id }}'>
+                            <input id='address-{{ address.id }}' type=radio name='shipping_address' value='{{ address.id }}'/>
+                        {{ address.address_line_1 }}</label>
+                        <br>
+                    {% endfor %}
+                        <button type="submit" class="btn btn-primary">Use Address</button>
+                    </form>
+                {% endif %}
         {% elif not object.billing_address %}
                 <p>Billing Address</p>
                 {% url "checkout_address_create" as checkout_address_create_url %}
