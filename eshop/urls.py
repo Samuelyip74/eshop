@@ -6,7 +6,7 @@ from django.urls import path,include
 from django.contrib.auth.views import LogoutView
 from django.views.generic import TemplateView, RedirectView
 from accounts.views import guest_register_view
-from addresses.views import checkout_address_create_view
+from addresses.views import checkout_address_create_view,checkout_address_reuse_view
 
 
 from .views import home
@@ -18,7 +18,7 @@ urlpatterns = [
     # url(r'^account/', include("accounts.urls", namespace='account')),
     # url(r'^accounts/', include("accounts.passwords.urls")),
     url(r'^checkout/address/create_view/$', checkout_address_create_view, name='checkout_address_create'),
-    
+    url(r'^checkout/address/reuse/$', checkout_address_reuse_view, name='checkout_address_reuse'),
     url(r'^logout/$', LogoutView.as_view(), name='logout'),
     url(r'^register/guest/$', guest_register_view, name='guest_register'),
     url(r'^products/',include('products.urls')),
