@@ -63,16 +63,14 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Login</a></li>
                 </li>
                 {% endif %}
-                {% if request.session.cart_items > 0 %}
                 <li class="nav-item" >
                         <a href="{% url 'cart:home' %}">
                         <div class="cart">
                                 <i class="fa" style="font-size:18px">&#xf07a;</i>
-                                <span> {{ request.session.cart_items }} </span>
+                                <span class="navbar-cart-count"> {{ request.session.cart_items }} </span>
                                 </div>
                         </a>
                 </li>
-                {% endif %}
             </ul>
         </div>
     </div>

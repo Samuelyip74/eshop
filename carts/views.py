@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render,redirect
 from accounts.forms import LoginForm, GuestForm
 from accounts.models import GuestEmail
@@ -10,6 +11,18 @@ from products.models import Product
 from .models import Cart
 from billing.models import BillingProfile
 
+def cart_detail_api_view(request):
+    cart_obj, new_obj = Cart.objects.new_or_get(request)
+    products = [{
+            "id": x.id,
+            "url": x.get_absolute_url(),
+            "name": x.name, 
+            "description": x.description,
+            "price": x.price
+            } 
+            for x in cart_obj.products.all()]
+    cart_data  = {"products": products, "subtotal": cart_obj.subtotal, "total": cart_obj.total}
+    return JsonResponse(cart_data)
 
 def cart_home(request):
     cart_obj, new_obj = Cart.objects.new_or_get(request)

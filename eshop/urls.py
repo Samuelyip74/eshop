@@ -7,7 +7,7 @@ from django.contrib.auth.views import LogoutView
 from django.views.generic import TemplateView, RedirectView
 from accounts.views import guest_register_view
 from addresses.views import checkout_address_create_view,checkout_address_reuse_view
-
+from carts.views import cart_detail_api_view
 
 from .views import home
 
@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^logout/$', LogoutView.as_view(), name='logout'),
     url(r'^register/guest/$', guest_register_view, name='guest_register'),
     url(r'^products/',include('products.urls')),
+    url(r'^api/cart/',cart_detail_api_view, name="api_cart"),
     url(r'^cart/',include('carts.urls')),
     url(r'^$',home, name='homepage'),
 ]
