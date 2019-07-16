@@ -97,11 +97,12 @@
 				success: function(data){
 					if(data.products.length > 0){
 						productsRow.html(" ")
-						i=1
+						i=data.products.length
 						$.each(data.products,function(index,value){
-							cartBody.prepend("<tr><th scope=\"row\">" + i + "</th><td><a href=\"" + value.url  + "\">" +
-								value.name + "</a></td><td>" + readMore(value.description,20) + "</td><td>" + value.price + "</td></tr>")
-							i ++
+							cartBody.prepend("<tr><th scope=\"row\">" + i + "</th><td><a href='" + value.url  + "'>" +
+								value.name + "</a></td><td>" + readMore(value.description,20) + "</td><td>" + value.price +
+									"</td><td>" + {% include 'carts/snippets/remove-product.html' with product_id=product.id %} + "</td></tr>")
+							i --
 						})
 						cartBody.find(".cart-subtotal").text(data.subtotal)
 						cartBody.find(".cart-total").text(data.total)
