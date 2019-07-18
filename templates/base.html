@@ -76,6 +76,7 @@
 					var currentPath = window.location.href
 					if(currentPath.indexOf("cart") != -1){
 						refreshCart()
+						//console.log("refresh cart")
 					}
 				},
 				error: function(errorData){
@@ -95,18 +96,23 @@
 				method: refreshCartMethod,
 				data: data,
 				success: function(data){
-					if(data.products.length > 0){
+					var hiddenItemCartRemoveForm = $(".cart-item-remove-form")
+					if(data.products.length >= 0){
 						productsRow.html(" ")
 						i=data.products.length
 						$.each(data.products,function(index,value){
+							var newCartItemRemove = hiddenItemCartRemoveForm.clone()
+							newCartItemRemove.css("display","block")
+							newCartItemRemove.find(".cart-item-product-id").val(value.id)
 							cartBody.prepend("<tr><th scope=\"row\">" + i + "</th><td><a href='" + value.url  + "'>" +
 								value.name + "</a></td><td>" + readMore(value.description,20) + "</td><td>" + value.price +
-									"</td><td>" + {% include 'carts/snippets/remove-product.html' with product_id=product.id %} + "</td></tr>")
+									"</td><td>" + newCartItemRemove.html() + "</td></tr>")
 							i --
 						})
 						cartBody.find(".cart-subtotal").text(data.subtotal)
 						cartBody.find(".cart-total").text(data.total)
-					}
+				}
+
 				},
 				error: function(errorData){
 					console.log("errorData")
