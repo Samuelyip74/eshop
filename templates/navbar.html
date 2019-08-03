@@ -1,77 +1,142 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-light main_box">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <a class="navbar-brand logo_h" href="{% url 'homepage' %}"><img src="{% static 'img/logo.png' %}" alt=""></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-            <ul class="nav navbar-nav menu_nav ml-auto">
-                <li class="nav-item active"><a class="nav-link" href="{% url 'homepage' %}">Home</a></li>
-                <li class="nav-item submenu dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                     aria-expanded="false">Shop</a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
-                        <li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
-                        <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
-                        <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
-                        <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item submenu dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                     aria-expanded="false">Blog</a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                        <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item submenu dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                     aria-expanded="false">Pages</a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
-                        <li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="/products/">Products</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right" >
-
-                {% if request.user.is_authenticated %}
-                <li class="nav-item submenu dropdown"style="margin-left: 25px !important;">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                         aria-expanded="false">Account</a>
-                        <ul class="dropdown-menu">
-                            <li class="nav-item"><a class="nav-link" href="">Profile</a></li>
-                            <li class="nav-item"><a class="nav-link" href="">Service</a></li>
-                            <li class="nav-item"><a class="nav-link" href="">Invoice</a></li>
-                            <li class="nav-item"><a class="nav-link" href="">Order History</a></li>
-                            <li class="nav-item"><a class="nav-link" href="">Tickets</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+<div class="container-fluid no-gutters">
+            <!-- Navigation Sidebar (Drawer)  -->
+            <div class="container-fluid no-gutters">
+                    <nav class="navbar fixed-top navbar-expand-lg navbar-light mobile-only" style="height: 60px;">       
+                        <a class="navbar-brand" href="#" style="margin:0;">
+                            <span><img class="logo" src="/static/_img/logo.png"  alt=""></span>
+                            <span class=logo-text></span>
+                        </a>       
+                        <button type="button" id="sidebarCollapse" class="btn btn-info" style="float:right;vertical-align: middle;">
+                            <i class="fas fa-align-justify"></i>
+                        </button>                  
+                    </nav>
+                </div> 
+            <nav id="sidebar">
+                    <div class="sidebar-header">
+                        <div id="dismiss">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                        <span><img class="logo-header" src="/static/_img/logo.png"  alt=""></span>
+                        <span class="logo-header-text"></span>
+                    </div>
+            
+                <ul class="list-unstyled components">
+                    <li>
+                        <a href="#CoffeeSubmenu" data-toggle="collapse" aria-expanded="false">Coffee</a>
+                        <ul class="collapse list-unstyled" id="CoffeeSubmenu">
+                            <li>
+                                <a href="#">Home 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Home 2</a>
+                            </li>
+                            <li>
+                                <a href="#">Home 3</a>
+                            </li>
                         </ul>
-                    </li>                
-                {% else %}
-                <li class="nav-item" >
-                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Login</a></li>
-                </li>
-                {% endif %}
-                <li class="nav-item" >
-                        <a href="{% url 'cart:home' %}">
-                        <div class="cart">
-                                <i class="fa" style="font-size:18px">&#xf07a;</i>
-                                <span class="navbar-cart-count"> {{ request.session.cart_items }} </span>
-                                </div>
-                        </a>
-                </li>
-            </ul>
+                    </li>
+                    <li>
+                        <a href="#TeaSubmenu" data-toggle="collapse" aria-expanded="false">Tea</a>
+                        <ul class="collapse list-unstyled" id="TeaSubmenu">
+                            <li>
+                                <a href="#">Page 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Page 2</a>
+                            </li>
+                            <li>
+                                <a href="#">Page 3</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                            <a href="#PastriesSubmenu" data-toggle="collapse" aria-expanded="false">Pastries</a>
+                            <ul class="collapse list-unstyled" id="PastriesSubmenu">
+                                <li>
+                                    <a href="#">Page 1</a>
+                                </li>
+                                <li>
+                                    <a href="#">Page 2</a>
+                                </li>
+                                <li>
+                                    <a href="#">Page 3</a>
+                                </li>
+                            </ul>
+                        </li>
+                    <li>
+                        <a href="#">Locations</a>
+                    </li>
+                </ul>
+                <!--         
+                <ul class="list-unstyled CTAs">
+                    <li>
+                        <a href="#" class="article">Login</a>
+                    </li>
+                    <li>
+                        <a href="#" class="article">Register</a>
+                    </li>
+                </ul> -->
+            </nav>
+
+
+    <nav class="navbar  fixed-top navbar-expand-lg navbar-light desktop-only">
+        <div class="container narrow">
+                <ul class="nav navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><small>Contact us</small></a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item">
+                                    <a class="nav-link" href="tel:+6567335555"><small>+65 67335555</small></a>
+                            </li>
+                    </ul>
         </div>
-    </div>
-</nav>
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <span><img class="logo" src="/static/_img/logo.png"  alt=""></span>
+                <span class=logo-text></span>
+
+            </a>
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-align-justify"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Furniture</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Accessories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sales</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/products/">Our Story</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-22 fa-user-circle"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-22 fa-heart"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cart/"><i class="fas fa-22 fa-shopping-cart"></i>
+                                {% if request.session.cart_items > 0 %}
+                                    <span class="badge badge-notify"> {{ request.session.cart_items }}</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</DIV>

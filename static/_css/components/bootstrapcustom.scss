@@ -1,0 +1,95 @@
+
+$break-large: 1024px;
+
+$theme-primary: #724e2c;
+$theme-secondary: #271300;
+$theme-ascent: #9c6f44;
+$theme-textcolor: darkgrey;
+
+/* ---------------------------------------------------
+    BOOTSTRAP STYLE
+----------------------------------------------------- 
+*/
+
+
+.no-gutters {
+    padding: 0px !important;
+}
+
+.navbar {
+    // padding: 10px 10px;
+    width: 100%;
+    background: #fff;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 40px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+
+}
+
+.navbar-brand {
+    margin:10px;
+}
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+
+.fill { 
+    min-height: 100vh;
+    height: 100%;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed #ddd;
+    margin: 40px 0;
+}
+
+.badge-notify {
+    background:red;
+    color: white;
+    position:relative;
+    top: -35px;
+    left: 10px;
+
+    @media screen and (min-width: $break-large) {
+        top: -12px;
+        left: -8px;
+    }
+}
+
+
+.login {
+    @media screen and (min-width: $break-large) {
+        width:30%;
+        height: 100vh;
+    }
+
+    .row {
+        height: 100vh;
+        @media screen and (min-width: $break-large) {
+            height: 100%;
+            margin: auto;
+        }
+
+    }
+
+    .login-form {
+        @media screen and (min-width: $break-large) {
+            background-color: white;   
+            padding: 30px; 
+        }
+
+        .form-control {
+            @media screen and (min-width: $break-large) {
+                background-color: white !important;   
+            }
+        }
+    }
+}
+
+

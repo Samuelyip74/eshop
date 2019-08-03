@@ -1,0 +1,166 @@
+$break-large: 1024px;
+
+$theme-primary: #724e2c;
+$theme-secondary: #271300;
+$theme-ascent: #9c6f44;
+$theme-textcolor: darkgrey;
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+#sidebar { 
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    height: 100vh;
+    z-index: 1045;
+    background: white;
+    color: darkgrey;
+    transition: all 0.3s;
+    // overflow-y: scroll;
+    // box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+
+    // sidebar -> sidebar-header
+    .sidebar-header {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        color:$theme-textcolor!important;
+        width:100%;
+        align-items: center;
+        justify-content: center;
+        margin: auto 0;
+        padding:30px 0 20px 0;
+        z-index: 1;
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    
+        .logo-header{
+            margin:5px;
+            width: 155px;
+            // height: 80px;
+            flex:1;
+        }
+    
+        .logo-header-text{
+            display: none;
+            margin:10px;
+            font-family: 'Kaushan Script', cursive;
+            flex:1;
+        }
+    
+        #dismiss {
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            background: white;
+            border: lightgrey;
+            position: absolute;
+            flex:1;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            -webkit-transition: all 0.3s;
+            -o-transition: all 0.3s;
+            transition: all 0.3s;
+        }
+        
+        #dismiss:hover {
+            background: #fff;
+            color: #59576D;
+        }
+    
+    }
+
+    ul.components {
+        padding: 20px 0;
+        // border-bottom: 1px solid #424656;
+    }
+
+    ul p {
+        color: $theme-textcolor;
+        padding: 10px;
+    }
+
+    ul li a {
+        padding: 10px;
+        font-size: 1.1em;
+        display: block;
+    }
+
+    ul li a:hover {
+        color: white;
+        background: $theme-primary;
+    }
+
+    ul li.active>a,
+    a[aria-expanded="true"] {
+    color: $theme-textcolor;
+    background: white;
+
+    ul ul a {
+        color: $theme-textcolor;
+        font-size: 0.9em !important;
+        padding-left: 30px !important;
+        background: white;
+    }
+    }
+
+} // sidebar
+
+#sidebar.active {
+    left: 0;
+}
+
+// dark transparent background when navigation drawer is shown
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1040;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+.overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+ul.CTAs {
+    padding: 20px;
+}
+
+ul.CTAs a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.btn-info, .btn-info:disabled,
+.btn-info:active,.btn-info:focus,
+.btn-info::after {
+    background: white;
+    border-color: lightgrey;
+    color: lightgrey;
+}

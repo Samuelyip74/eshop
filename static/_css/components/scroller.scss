@@ -1,0 +1,76 @@
+$break-large: 1024px;
+
+.scroller-container {
+
+    @media screen and (min-width: $break-large) {
+        padding: 50px 50px 0 50px;
+        // min-height: 600px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .scroller-title {
+        text-align: center;
+    }
+
+    .scroller {
+
+        -ms-overflow-style: none;  // IE 10+
+        overflow: -moz-scrollbars-none;  // Firefox
+
+        @media screen and (min-width: $break-large) {
+            margin: 50px 0;
+            display: -webkit-box;
+            overflow-x: auto;
+
+        }
+
+        .card {
+            margin: 10px;
+
+            .card-title {
+                width: 100%;
+                text-align: center;
+            }
+
+            .card-img-top{
+                min-width: 200px;
+                min-height: 100px;;
+            }
+
+            @media screen and (min-width: $break-large) {
+                margin: 0px 20px;
+                display: flex;
+            }
+
+            .card-body {
+                max-width: 100%;
+                min-width: 200px;
+                max-height: 100px;
+                min-height: 100px;
+            }
+
+
+        }
+
+        @media screen and (min-width: $break-large) {
+            .lg {
+                min-width: 300px;
+                max-width: 300px;
+            }
+
+            .md {
+                min-width: 200px;
+                max-width: 200px;
+            }
+        }
+
+    }
+
+    .scroller::-webkit-scrollbar {
+        display: none; // Safari and Chrome
+    }
+}
+
+
+

@@ -1,0 +1,19 @@
+.bottom-nav {
+    background-color: white;
+    min-height: 50px;
+    z-index: 1030;
+    display: flex;
+    margin: 0 0;
+}
+
+.nav-button {
+    display: block;
+    background-color: white;
+    padding:10px;
+    text-align: center;
+    flex:1;
+}
+
+.wider {
+    width: 100% !important;
+}

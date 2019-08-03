@@ -1,137 +1,19 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
-
 <head>
-	<!-- Mobile Specific Meta -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<!-- Favicon-->
-	<link rel="shortcut icon" href="{% static 'img/fav.png' %}">
-	<!-- Author Meta -->
-	<meta name="author" content="CodePixar">
-	<!-- Meta Description -->
-	<meta name="description" content="">
-	<!-- Meta Keyword -->
-	<meta name="keywords" content="">
-	<!-- meta character set -->
-	<meta charset="UTF-8">
-	<!-- Site Title -->
-	<title>Cloudoro</title>
-  {% include 'css.html' %}
-  {% block base_head %}{% endblock %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{Product Details}</title>
 
+    <!-- Page-specific stylesheets -->
+	{% include 'css.html' %}
+	{% block base_head %}{% endblock %}
 </head>
 
 <body>
-	{% include 'header.html' %}
-
 	{% block content %}
 	{% endblock %}
-
-	{% include 'footer.html' %}
-
-	<script src="{% static 'js/vendor/jquery-2.2.4.min.js' %}"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-	<script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
-	<script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
-	<script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
-	<script src="{% static 'js/jquery.sticky.js' %}"></script>
-	<script src="{% static 'js/nouislider.min.js' %}"></script>
-	<!--<script src="{% static 'js/countdown.js' %}"></script>-->
-	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/countdown/2.6.0/countdown.js"></script>-->
-
-	<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-	<script src="{% static 'js/owl.carousel.min.js' %}"></script>
-	<!--gmaps Js-->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
-	<script src="{% static 'js/gmaps.min.js' %}"></script>
-	<script src="{% static 'js/main.js' %}"></script>
-	<script src='{% static "js/loginpanel.js" %}'></script>
-	<script>
-	$(document).ready(function(){
-		var productForm = $(".form-product-ajax")
-		productForm.submit(function(event){
-			event.preventDefault();
-			var thisForm = $(this);
-			var actionEndpoint = thisForm.attr("action");
-			var httpMethod = thisForm.attr("method");
-			var formData = thisForm.serialize();
-
-			$.ajax({
-				url: actionEndpoint,
-				method: httpMethod,
-				data: formData,
-				success: function(data){
-					var submitSpan = thisForm.find(".submit-span")
-					if(data.added){
-						submitSpan.html("<div class='btn-group'> <a class='btn btn-link' href='/cart/'>In cart</a> <button type='submit' class='btn btn-link'>Remove?</button></div>")
-					}
-					else {
-						submitSpan.html("<button type='submit'  class='btn btn-success'>Add to cart</button>")
-					}
-
-					var navbarCount = $(".navbar-cart-count")
-					navbarCount.text(data.cartItemCount)
-
-					var currentPath = window.location.href
-					if(currentPath.indexOf("cart") != -1){
-						refreshCart()
-						//console.log("refresh cart")
-					}
-				},
-				error: function(errorData){
-				}
-			})
-		})
-
-		function refreshCart(){
-			var cartTable = $(".cart-table")
-			var cartBody = cartTable.find(".cart-body")
-			var productsRow = cartBody.find(".cart-product")
-			var refreshCartUrl = '/api/cart/';
-			var refreshCartMethod = "GET";
-			var data = {};
-			$.ajax({
-				url: refreshCartUrl,
-				method: refreshCartMethod,
-				data: data,
-				success: function(data){
-					var hiddenItemCartRemoveForm = $(".cart-item-remove-form")
-					if(data.products.length >= 0){
-						productsRow.html(" ")
-						i=data.products.length
-						$.each(data.products,function(index,value){
-							var newCartItemRemove = hiddenItemCartRemoveForm.clone()
-							newCartItemRemove.css("display","block")
-							newCartItemRemove.find(".cart-item-product-id").val(value.id)
-							cartBody.prepend("<tr><th scope=\"row\">" + i + "</th><td><a href='" + value.url  + "'>" +
-								value.name + "</a></td><td>" + readMore(value.description,20) + "</td><td>" + value.price +
-									"</td><td>" + newCartItemRemove.html() + "</td></tr>")
-							i --
-						})
-						cartBody.find(".cart-subtotal").text(data.subtotal)
-						cartBody.find(".cart-total").text(data.total)
-				}
-
-				},
-				error: function(errorData){
-					console.log("errorData")
-				}
-			})
-
-		}
-
-		function readMore(string, maxWords) {       
-			var array = string.split(" ");
-			var wordCount = array.length;
-			var string = array.splice(0, maxWords).join(" ");
-			if(wordCount > maxWords) {
-				string += "...";
-			}
-			return string ;
-		}
-	})
-	</script>
 </body>
-
 </html>

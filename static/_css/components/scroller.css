@@ -1,0 +1,74 @@
+@media screen and (min-width: 1024px) {
+  .scroller-container {
+    padding: 50px 50px 0 50px;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+}
+
+.scroller-container .scroller-title {
+  text-align: center;
+}
+
+.scroller-container .scroller {
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+}
+
+@media screen and (min-width: 1024px) {
+  .scroller-container .scroller {
+    margin: 50px 0;
+    display: -webkit-box;
+    overflow-x: auto;
+  }
+}
+
+.scroller-container .scroller .card {
+  margin: 10px;
+}
+
+.scroller-container .scroller .card .card-title {
+  width: 100%;
+  text-align: center;
+}
+
+.scroller-container .scroller .card .card-img-top {
+  min-width: 200px;
+  min-height: 100px;
+}
+
+@media screen and (min-width: 1024px) {
+  .scroller-container .scroller .card {
+    margin: 0px 20px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+
+.scroller-container .scroller .card .card-body {
+  max-width: 100%;
+  min-width: 200px;
+  max-height: 100px;
+  min-height: 100px;
+}
+
+@media screen and (min-width: 1024px) {
+  .scroller-container .scroller .lg {
+    min-width: 300px;
+    max-width: 300px;
+  }
+  .scroller-container .scroller .md {
+    min-width: 200px;
+    max-width: 200px;
+  }
+}
+
+.scroller-container .scroller::-webkit-scrollbar {
+  display: none;
+}
+/*# sourceMappingURL=scroller.css.map */

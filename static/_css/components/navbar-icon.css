@@ -1,0 +1,73 @@
+.navbar-icons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: white;
+}
+
+.navbar-icons .navbar-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 80%;
+  padding: 5px 0;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.navbar-icons .navbar-item .navbar-icon {
+  display: block;
+  padding: 0;
+  margin: auto;
+  height: 50%;
+}
+
+.navbar-icons .navbar-item .navbar-icon a {
+  text-decoration: none;
+  color: white;
+  width: 100%;
+}
+
+.navbar-icons .navbar-item .navbar-icon a:active {
+  color: black;
+}
+
+.navbar-icons .navbar-item .navbar-icon-text {
+  text-align: center;
+  margin: auto;
+  font-size: 10px;
+  color: grey;
+}
+
+.navbar-icons .navbar-item .button {
+  padding: 15px;
+  width: 100%;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: blue;
+  border: none;
+}
+
+.navbar-icons .navbar-item .button:hover {
+  background-color: blue;
+}
+
+.navbar-icons .navbar-item .button:active {
+  background-color: red;
+}
+/*# sourceMappingURL=navbar-icon.css.map */
