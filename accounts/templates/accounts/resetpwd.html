@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Lobster&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="/static/_css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
@@ -32,24 +32,19 @@
             </DIV>
     </DIV>
     <div class="container login">
-        <div class="row align-items-center">
+        <div class="row align-items-center" style="height: 100vh;">
             <div class="container login-form">
-                    <form id="login-form" method="post">
-							{% csrf_token %}
+                <DIV class="" style="margin:5px 0;text-align: center;width:100%; color:black; font-size:18px;">Reset Password</DIV>
+                <DIV class="" style="margin-top:5px; margin-bottom:50px;text-align: center;width:100%; color:grey; font-size:13px;">Enter your email to reset your password</DIV>
+
+                    <form>
                             <div class="form-group border-bottom">
-                              <input type="text" name="username" class="form-control border-0" style="background-color: #f6f6f6; " id="username" aria-describedby="emailHelp" placeholder="Username">
+                              <input type="email" class="form-control border-0" style="background-color: #f6f6f6; " id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
                             </div>
-                            <div class="form-group border-bottom">
-                              <input type="password" name="password" id="password" class="form-control border-0" style="background-color: #f6f6f6; " placeholder="Password">
-                            </div>
-                            <button type="submit" class="btn btn-danger" style="width:100%;">Login</button>
+                            <button type="submit" class="btn btn-danger" style="width:100%;">Continue</button>
                     </form>
-                    <DIV class="" style="margin:5px 0;text-align: center;width:100%; color:grey; font-size:13px;"><a href="resetpwd.html" style="color:grey;">Forgot password?</a></DIV>
-
-                    <DIV class="text-overlay"><span> or </span></DIV>
-                    <DIV class="btn btn-primary" style="margin:5px 0;width:100%;">Sign in with Facebook</DIV>
-                    <DIV class="" style="margin:5px 0;text-align: center;width:100%; color:grey; font-size:13px;">Don't have an account? <a href="register.html">Sign up</a></DIV>
-
+     
+ 
             </div>
         </div>
     </div>   
