@@ -8,7 +8,7 @@ from addresses.forms import AddressForm
 from addresses.models import Address
 
 from products.models import Product
-from .models import Cart
+from .models import Cart,CartItem
 from billing.models import BillingProfile
 
 def cart_detail_api_view(request):
@@ -16,10 +16,10 @@ def cart_detail_api_view(request):
     products = [{
             "id": x.id,
             "url": x.get_absolute_url(),
-            "name": x.name, 
+            "name": x.name,
             "description": x.description,
             "price": x.price
-            } 
+            }
             for x in cart_obj.products.all()]
     cart_data  = {"products": products, "subtotal": cart_obj.subtotal, "total": cart_obj.total}
     return JsonResponse(cart_data)
@@ -33,7 +33,7 @@ def cart_update(request):
         product_id = request.POST.get('product_id')
     elif request.GET.get('product_id') is not None:
         product_id = request.GET.get('product_id')
-    
+
     if product_id is not None:
         try:
             product_obj = Product.objects.get(id=product_id)
@@ -41,7 +41,9 @@ def cart_update(request):
             print("Show message to user, product is gone?")
             return redirect("cart:home")
         cart_obj, new_obj = Cart.objects.new_or_get(request)
+        # item_obj, created = CartItem.objects.new_or_get(request)
         if product_obj in cart_obj.products.all():
+            print("product exist")
             cart_obj.products.remove(product_obj)
             added = False
         else:
@@ -64,7 +66,7 @@ def checkout_home(request):
     cart_obj, cart_created = Cart.objects.new_or_get(request)
     order_obj = None
     if cart_created or cart_obj.products.count() == 0:
-        return redirect("cart:home")  
+        return redirect("cart:home")
     login_form = LoginForm()
     guest_form = GuestForm()
     address_form = AddressForm()
@@ -80,7 +82,7 @@ def checkout_home(request):
             order_obj.shipping_address = Address.objects.get(id=shipping_address_id)
             del request.session["shipping_address_id"]
         if billing_address_id:
-            order_obj.billing_address = Address.objects.get(id=billing_address_id) 
+            order_obj.billing_address = Address.objects.get(id=billing_address_id)
             del request.session["billing_address_id"]
         if billing_address_id or shipping_address_id:
             order_obj.save()
@@ -117,7 +119,7 @@ def checkout_home(request):
     #         order_obj.shipping_address = Address.objects.get(id=shipping_address_id)
     #         del request.session["shipping_address_id"]
     #     if billing_address_id:
-    #         order_obj.billing_address = Address.objects.get(id=billing_address_id) 
+    #         order_obj.billing_address = Address.objects.get(id=billing_address_id)
     #         del request.session["billing_address_id"]
     #     if billing_address_id or shipping_address_id:
     #         order_obj.save()
@@ -141,7 +143,7 @@ def checkout_home(request):
     #         else:
     #             print(crg_msg)
     #             return redirect("cart:checkout")
-    
+
 
     context = {
         "object": order_obj,

@@ -30,9 +30,47 @@ class CartManager(models.Manager):
                 user_obj = user
         return self.model.objects.create(user=user_obj)
 
-# Create your models here.
+class CartItemManager(models.Manager):
+    def new_or_get(self, request):
+        cart_id = request.session.get("cart_id", None)
+        if request.POST.get('product_id') is not None:
+            product_id = request.POST.get('product_id')
+        elif request.GET.get('product_id') is not None:
+            product_id = request.GET.get('product_id')
+        print(product_id)
+        qs = self.get_queryset().filter(cartid=cart_id)
+        if qs.count() == 1:
+            new_obj = False
+            cartitem_obj = qs.first()
+        else:
+            cartitem_obj = CartItem.objects.new(cartid=cart_id,item=product_id)
+            cartitem_obj.item = product_id
+            cartitem_obj.save()
+            new_obj = True
+            # request.session['cart_id'] = cart_obj.id
+        return cartitem_obj, new_obj
+
+    def new(self, cartid=None,item=None):
+        cartid_obj = None
+        if cartid is not None:
+            cartid_obj = cartid
+            product_id = Product.objects.filter(id=item)
+        return self.model.objects.create(cartid=cartid_obj,item=product_id)        
+
+class CartItem(models.Model):
+    item        = models.ForeignKey(Product,null=True, blank=True,on_delete='CASCADE')
+    quantity    = models.IntegerField(default=1,null=True, blank=True)
+    cartid      = models.IntegerField(null=True, blank=True) 
+
+    objects = CartItemManager()
+
+    def __str__(self):
+        return str(self.id)
+
+
 class Cart(models.Model):
     user        = models.ForeignKey(User, null=True, blank=True, on_delete='CASCADE')
+    item        = models.ManyToManyField(CartItem,blank=True)
     products    = models.ManyToManyField(Product, blank=True)
     subtotal    = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     total       = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
