@@ -15,7 +15,7 @@
       <th width="500px">Description</th>
       <th width="100px">Price</th>
       <th width="100px">Quantity</th>
-      <th width="100px">Total</th>
+      <th style="text-align:center;" width="100px">Total</th>
       <th width="50px">Delete</th>
     </tr>
   </thead>
@@ -32,18 +32,18 @@
     </tr>
     {% endfor %}
     <tr>
-      <td colspan="2"></td>
+      <td colspan="1"></td>
       <td align="right"><b>Subtotal</b></td>
-      <td colspan="2">$<span class='cart-subtotal'>{{ cart.subtotal }}</span></td>
+      <td align="center" colspan="1">$<span class='cart-subtotal'>{{ cart.subtotal }}</span></td>
     </tr>
     <tr>
-      <td colspan="2"></td>
+      <td colspan="4"></td>
       <td align="right"><b>Total</b></td>
-      <td colspan="2">$<span class='cart-total'>{{ cart.total }}</span></td>
+      <td align="center" colspan="1">$<span class='cart-total'>{{ cart.get_total }}</span></td>
     </tr>
     <tr>
-      <td colspan="3"></td>
-      <td colspan="3"><a class='btn btn-lg btn-success' href='{% url "cart:checkout" %}'>Checkout</a></td>
+      <td colspan="5"></td>
+      <td colspan="5"><a class='btn btn-lg btn-success' href='{% url "cart:checkout" %}'>Checkout</a></td>
     </tr>
 
   </tbody>
