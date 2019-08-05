@@ -66,7 +66,6 @@ def cart_update(request):
         else:
             cart_obj.items.add(itemInCart)
             request.session['cart_items'] = 1
-            print(itemInCart.get_total_item_price())
 
         if product_obj in cart_obj.products.all():
             # cart_obj.products.remove(product_obj)
@@ -91,7 +90,8 @@ def cart_update(request):
 def checkout_home(request):
     cart_obj, cart_created = Cart.objects.new_or_get(request)
     order_obj = None
-    if cart_created or cart_obj.products.count() == 0:
+    # if cart_created or cart_obj.products.count() == 0:
+    if cart_created:
         return redirect("cart:home")
     login_form = LoginForm()
     guest_form = GuestForm()

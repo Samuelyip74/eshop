@@ -2,7 +2,7 @@ from decimal import Decimal
 from django.conf import settings
 from django.db import models
 from products.models import Product
-from django.db.models.signals import pre_save, m2m_changed
+from django.db.models.signals import pre_save, m2m_changed, post_save
 
 
 User = settings.AUTH_USER_MODEL
@@ -69,15 +69,20 @@ class CartItem(models.Model):
     objects = CartItemManager()
 
     def __str__(self):
-        return f"{self.quantity} unit(s) of {self.item.title} in Cart {self.cartid}"
+        return str(self.cartid)
 
     def get_total_item_price(self):
         return self.quantity * self.item.price
 
+    def get_final_price(self):
+        # if self.item.discount_price:
+        #     return self.get_total_discount_item_price()
+        return self.get_total_item_price()
+
 
 class Cart(models.Model):
     user        = models.ForeignKey(User, null=True, blank=True, on_delete='CASCADE')
-    items        = models.ManyToManyField(CartItem,blank=True)
+    items       = models.ManyToManyField(CartItem,blank=True)
     products    = models.ManyToManyField(Product, blank=True)
     subtotal    = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     total       = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
@@ -88,6 +93,15 @@ class Cart(models.Model):
 
     def __str__(self):
          return str(self.id)
+         
+    def get_total(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_final_price()
+        print(total)
+        # if self.coupon:
+        #     total -= self.coupon.amount
+        return total         
 
     # @property
     # def is_digital(self):
@@ -99,6 +113,7 @@ class Cart(models.Model):
 
 def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):
     if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
+        print("item m2m save")
         products = instance.products.all()
         total = 0
         for x in products:
@@ -107,7 +122,8 @@ def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):
             instance.subtotal = total
             instance.save()
 
-m2m_changed.connect(m2m_changed_cart_receiver, sender=Cart.products.through)
+m2m_changed.connect(m2m_changed_cart_receiver, sender=Cart.items.through)
+
 
 def pre_save_cart_receiver(sender, instance, *args, **kwargs):
     if instance.subtotal > 0:
