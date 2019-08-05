@@ -21,6 +21,7 @@ class CartManager(models.Manager):
             cart_obj = Cart.objects.new(user=request.user)
             new_obj = True
             request.session['cart_id'] = cart_obj.id
+            request.session['cart_items'] = 0
         return cart_obj, new_obj
 
     def new(self, user=None):
@@ -38,24 +39,27 @@ class CartItemManager(models.Manager):
         elif request.GET.get('product_id') is not None:
             product_id = request.GET.get('product_id')
         print(product_id)
+        product_instance = Product.objects.get(id=product_id)
+        print(product_instance.title)
         qs = self.get_queryset().filter(cartid=cart_id)
         if qs.count() == 1:
             new_obj = False
             cartitem_obj = qs.first()
         else:
-            cartitem_obj = CartItem.objects.new(cartid=cart_id,item=product_id)
-            cartitem_obj.item = product_id
+            cartitem_obj = CartItem.objects.new(cartid=cart_id)
+            product_instance = Product.objects.get(id=product_id)
+            print(product_instance.title)
+            cartitem_obj.item = product_instance.title
             cartitem_obj.save()
             new_obj = True
             # request.session['cart_id'] = cart_obj.id
         return cartitem_obj, new_obj
 
-    def new(self, cartid=None,item=None):
+    def new(self, cartid=None):
         cartid_obj = None
         if cartid is not None:
             cartid_obj = cartid
-            product_id = Product.objects.filter(id=item)
-        return self.model.objects.create(cartid=cartid_obj,item=product_id)        
+        return self.model.objects.create(cartid=cartid_obj)        
 
 class CartItem(models.Model):
     item        = models.ForeignKey(Product,null=True, blank=True,on_delete='CASCADE')
@@ -65,7 +69,10 @@ class CartItem(models.Model):
     objects = CartItemManager()
 
     def __str__(self):
-        return str(self.id)
+        return f"{self.quantity} unit(s) of {self.item.title} in Cart {self.cartid}"
+
+    def get_total_item_price(self):
+        return self.quantity * self.item.price
 
 
 class Cart(models.Model):

@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render,redirect
+
 from accounts.forms import LoginForm, GuestForm
 from accounts.models import GuestEmail
 from orders.models import Order
@@ -29,6 +30,7 @@ def cart_home(request):
     return render(request, "carts/home.html", {"cart": cart_obj})
 
 def cart_update(request):
+    # Get Product ID from HTTP Request.  
     if request.POST.get('product_id') is not None:
         product_id = request.POST.get('product_id')
     elif request.GET.get('product_id') is not None:
@@ -36,20 +38,44 @@ def cart_update(request):
 
     if product_id is not None:
         try:
+            # Check if Product is still available in Database.  
             product_obj = Product.objects.get(id=product_id)
         except Product.DoesNotExist:
             print("Show message to user, product is gone?")
             return redirect("cart:home")
+        
+        # Check if there is an existing shopping cart id, else create one.  
         cart_obj, new_obj = Cart.objects.new_or_get(request)
-        # item_obj, created = CartItem.objects.new_or_get(request)
+
+        if new_obj is True:
+            print(new_obj)
+            request.session['cart_items'] = 0
+
+        # Add the item to cart if not exist.  If exist, get itemInCart object  
+        itemInCart, new_item = CartItem.objects.get_or_create(
+                item=product_obj,
+                cartid=cart_obj.id,
+        )
+
+        # If item already in cart, increment quantity
+        if new_item is False:
+            itemInCart.quantity +=1
+            itemInCart.save()
+            request.session['cart_items'] += 1
+            print(itemInCart.get_total_item_price())
+
+        else:
+            request.session['cart_items'] = 1
+            print(itemInCart.get_total_item_price())
+
         if product_obj in cart_obj.products.all():
-            print("product exist")
-            cart_obj.products.remove(product_obj)
+            # cart_obj.products.remove(product_obj)
             added = False
         else:
-            cart_obj.products.add(product_obj) # cart_obj.products.add(product_id)
+            # cart_obj.products.add(product_obj) # cart_obj.products.add(product_id)
             added = True
-        request.session['cart_items'] = cart_obj.products.count()
+        # request.session['cart_items'] = cart_obj.products.count()
+
         # return redirect(product_obj.get_absolute_url())
         if request.is_ajax(): # Asynchronous JavaScript And XML / JSON
             print("Ajax request")
