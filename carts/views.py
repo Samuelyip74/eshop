@@ -48,7 +48,6 @@ def cart_update(request):
         cart_obj, new_obj = Cart.objects.new_or_get(request)
 
         if new_obj is True:
-            print(new_obj)
             request.session['cart_items'] = 0
 
         # Add the item to cart if not exist.  If exist, get itemInCart object  
@@ -65,6 +64,7 @@ def cart_update(request):
             print(itemInCart.get_total_item_price())
 
         else:
+            cart_obj.items.add(itemInCart)
             request.session['cart_items'] = 1
             print(itemInCart.get_total_item_price())
 

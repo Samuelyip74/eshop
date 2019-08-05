@@ -7,7 +7,6 @@
 
 <h1>My Cart</h1><br>
 
-{% if cart.products.exists %}
 <table class="table cart-table">
   <thead>
     <tr>
@@ -15,16 +14,20 @@
       <th width="150px">Product Name</th>
       <th width="500px">Description</th>
       <th width="100px">Price</th>
+      <th width="100px">Quantity</th>
+      <th width="100px">Total</th>
       <th width="50px">Delete</th>
     </tr>
   </thead>
   <tbody class='cart-body'>
-    {% for product in cart.products.all %}
+    {% for order_item in cart.items.all %}
     <tr class='cart-product'>
       <th scope="row">{{ forloop.counter }}</th>
-      <td><a href='{{ product.get_absolute_url }}'>{{ product.title }}</a> </td>
-      <td>{{ product.description|truncatewords:20 }}</td>
-      <td>${{ product.price }}</td>
+      <td><a href='{{ order_item.item.get_absolute_url }}'>{{ order_item.item.title }}</a> </td>
+      <td>{{ order_item.item.description|truncatewords:20 }}</td>
+      <td>${{ order_item.item.price }}</td>
+      <td align="center">{{ order_item.quantity }}</td>
+      <td align="center">${{ order_item.get_total_item_price }}</td>
       <td>{% include 'carts/snippets/remove-product.html' with product_id=product.id %}</td>
     </tr>
     {% endfor %}
@@ -51,9 +54,6 @@
     {% include 'carts/snippets/remove-product.html' %}
   </div>
 
-{% else %}
-<p class='lead'>Cart is empty</p>
-{% endif %}
 
 </DIV>
 {% include 'footer.html' %}
