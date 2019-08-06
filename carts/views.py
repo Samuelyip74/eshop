@@ -119,10 +119,13 @@ def remove_single_item_from_cart(request, product_id):
     if order_qs.exists():                                               # Check if Cart_obj is available
         order = order_qs[0]                                             # Get Cart details
         order_items = order.items.all()                                 # Get all the items in CartItem
-        if item in order_items:                                         # Check if item is in CartItem            
-            if item.quantity == 1:
+        if item in order_items:                                         # Check if item is in CartItem 
+            item.quantity -= 1          
+            if item.quantity == 0:
+                order.items.remove(item)                                    # Remote item from Cart     
+                request.session['cart_items'] -= 1                          # Update 'cart_items' attribute
                 CartItem.objects.filter(item=product_id,cartid=cart_id).delete()  # Delete item from CartItem
-            item.quantity -= 1
+                return redirect("cart:home")
             item.save()
             request.session['cart_items'] -= 1                          # Update 'cart_items' attribute
             return redirect("cart:home")
