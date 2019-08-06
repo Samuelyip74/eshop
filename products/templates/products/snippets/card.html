@@ -1,30 +1,14 @@
-<div class="single-product">
-    {% if instance.image %}
+<div class="card" style="width:18rem;margin:10px;max-width:18rem;">
+  {% if instance.image %}
       <a href="{{ instance.get_absolute_url }}">
-        <img class="img-fluid" src="{{ instance.image.url }}" alt="{{ instance.title}} " height="42px" width="20px"></a>
+        <img class="card-img-top" src="{{ instance.image.url }}" alt="{{ instance.title}} " style="height: 150px;"></a>
       {% endif %}
-    <div class="product-details">
-      <h6>{{ instance.title }}<br></h6>
-      <h7>{{ instance.description|truncatewords:12 }}</h7>
-
-      <div class="price">
-        <h6>$50.00</h6>
-        <h6 class="l-through">{{ instance.price }}</h6>
-      </div>
-      <div class="prd-bottom">
-
-        <a href="{% url 'cart:update' %}?product_id={{instance.id}}" class="social-info">
-          <span class="ti-bag"></span>
-          <p class="hover-text">add to bag</p>
-        </a>
-        <a href="" class="social-info">
-          <span class="lnr lnr-heart"></span>
-          <p class="hover-text">Wishlist</p>
-        </a>
-        <a href="{{ instance.get_absolute_url }}" class="social-info">
-          <span class="lnr lnr-move"></span>
-          <p class="hover-text">view more</p>
-        </a>
+    <div class="card-body">
+      <h6 class="card-title">{{ instance.title }}<br></h6>
+      <!-- <h7>{{ instance.description|truncatewords:12 }}</h7> -->
+        <h6 class="card-subtitle mb-2 text-muted">${{ instance.price }}</h6>
+      <div class="prd-bottom text-center">
+        <a href="{% url 'cart:update' %}?product_id={{instance.id}}" class="btn btn-primary">Add to cart</a>
       </div>
       <div class='text-center'>
           {% if instance.img %}
