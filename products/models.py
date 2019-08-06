@@ -8,6 +8,8 @@ from django.db.models.signals import pre_save
 from django.urls import reverse
 from eshop.utils import unique_slug_generator
 
+User = settings.AUTH_USER_MODEL
+
 def get_filename_ext(filepath):
     base_name = os.path.basename(filepath)
     name, ext = os.path.splitext(base_name)
@@ -62,6 +64,7 @@ class ProductManager(models.Manager):
 
 # Create your models here.
 class Product(models.Model):
+    user            = models.ForeignKey(User, null=True, blank=True, on_delete='CASCADE')
     title           = models.CharField(max_length=120)
     slug            = models.SlugField(blank=True, unique=True)
     description     = models.TextField()
@@ -71,6 +74,8 @@ class Product(models.Model):
     active          = models.BooleanField(default=True)
     timestamp       = models.DateTimeField(auto_now_add=True)
     is_digital      = models.BooleanField(default=False) # User Library
+    viewed          = models.IntegerField(default=0,null=True, blank=True) # User Library
+
 
     objects = ProductManager()
 

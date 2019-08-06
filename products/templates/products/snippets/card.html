@@ -4,10 +4,10 @@
         <img class="card-img-top" src="{{ instance.image.url }}" alt="{{ instance.title}} " style="height: 150px;"></a>
       {% endif %}
     <div class="card-body">
-      <h6 class="card-title">{{ instance.title }}<br></h6>
+      <h6 class="card-title">{{ instance.title|truncatewords:5 }}<br></h6>
       <!-- <h7>{{ instance.description|truncatewords:12 }}</h7> -->
         <h6 class="card-subtitle mb-2 text-muted">${{ instance.price }}</h6>
-      <div class="prd-bottom text-center">
+      <div class="text-center">
         <a href="{% url 'cart:update' %}?product_id={{instance.id}}" class="btn btn-primary">Add to cart</a>
       </div>
       <div class='text-center'>
