@@ -137,7 +137,7 @@ def remove_single_item_from_cart(request, product_id):
 def checkout_home(request):
     cart_obj, cart_created = Cart.objects.new_or_get(request)
     order_obj = None
-    if cart_created or cart_obj.products.count() == 0:
+    if cart_created or cart_obj.items.count() == 0:
         return redirect("cart:home")
     login_form = LoginForm()
     guest_form = GuestForm()
