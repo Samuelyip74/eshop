@@ -63,4 +63,6 @@ class ProductDetailSlugView(DetailView):
             instance = qs.first()
         except:
             raise Http404("Error ")
+        instance.viewed += 1
+        instance.save()
         return instance
