@@ -61,10 +61,12 @@ def cart_update(request):
         if new_item is False:
             itemInCart.quantity +=1
             itemInCart.save()
+            cart_obj.items.add(itemInCart)
             request.session['cart_items'] += 1
             print(itemInCart.get_total_item_price())
 
         else:
+            cart_obj.items.add(itemInCart)
             request.session['cart_items'] = 1
             print(itemInCart.get_total_item_price())
 

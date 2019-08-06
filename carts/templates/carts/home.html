@@ -7,7 +7,6 @@
 
 <h1>My Cart</h1><br>
 
-{% if cart.products.exists %}
 <table class="table cart-table">
   <thead>
     <tr>
@@ -15,32 +14,35 @@
       <th width="150px">Product Name</th>
       <th width="500px">Description</th>
       <th width="100px">Price</th>
+      <th width="100px">Quantity</th>
+      <th style="text-align:center;" width="100px">Total</th>
       <th width="50px">Delete</th>
     </tr>
   </thead>
   <tbody class='cart-body'>
-    {% for product in cart.products.all %}
-    <tr class='cart-product'>
-      <th scope="row">{{ forloop.counter }}</th>
-      <td><a href='{{ product.get_absolute_url }}'>{{ product.title }}</a> </td>
-      <td>{{ product.description|truncatewords:20 }}</td>
-      <td>${{ product.price }}</td>
+    {% for order_item in cart.items.all %}
+    <th scope="row">{{ forloop.counter }}</th>
+    <td><a href='{{ order_item.item.get_absolute_url }}'>{{ order_item.item.title }}</a> </td>
+    <td>{{ order_item.item.description|truncatewords:20 }}</td>
+    <td>${{ order_item.item.price }}</td>
+    <td align="center">{{ order_item.quantity }}</td>
+    <td align="center">${{ order_item.get_total_item_price }}</td>
       <td>{% include 'carts/snippets/remove-product.html' with product_id=product.id %}</td>
     </tr>
     {% endfor %}
     <tr>
-      <td colspan="2"></td>
+      <td colspan="4"></td>
       <td align="right"><b>Subtotal</b></td>
-      <td colspan="2">$<span class='cart-subtotal'>{{ cart.subtotal }}</span></td>
+      <td align="center" colspan="1">$<span class='cart-subtotal'>{{ cart.subtotal }}</span></td>
     </tr>
     <tr>
-      <td colspan="2"></td>
+      <td colspan="4"></td>
       <td align="right"><b>Total</b></td>
-      <td colspan="2">$<span class='cart-total'>{{ cart.total }}</span></td>
+      <td align="center" colspan="1">$<span class='cart-total'>{{ cart.get_total }}</span></td>
     </tr>
     <tr>
-      <td colspan="3"></td>
-      <td colspan="3"><a class='btn btn-lg btn-success' href='{% url "cart:checkout" %}'>Checkout</a></td>
+      <td colspan="5"></td>
+      <td colspan="5"><a class='btn btn-lg btn-success' href='{% url "cart:checkout" %}'>Checkout</a></td>
     </tr>
 
   </tbody>
@@ -51,9 +53,6 @@
     {% include 'carts/snippets/remove-product.html' %}
   </div>
 
-{% else %}
-<p class='lead'>Cart is empty</p>
-{% endif %}
 
 </DIV>
 {% include 'footer.html' %}
