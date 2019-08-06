@@ -20,6 +20,6 @@ urlpatterns = [
     url(r'^checkout/$', checkout_home, name='checkout'),
     url(r'^update/$', cart_update, name='update'),
     path('remove-from-cart/<product_id>/', remove_from_cart, name='remove-from-cart'),
-    path('remove-item-from-cart/<slug>/', remove_single_item_from_cart,
+    path('remove-item-from-cart/<product_id>/', remove_single_item_from_cart,
          name='remove-single-item-from-cart'),
 ]

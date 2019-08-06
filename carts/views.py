@@ -93,7 +93,7 @@ def cart_update(request):
 # remote item from cart
 def remove_from_cart(request, product_id):
     cart_id = request.session.get("cart_id", None)                      # Get Cart_id from request
-    item = get_object_or_404(CartItem, item=product_id)                       # Get item from CartItem  
+    item = get_object_or_404(CartItem, item=product_id)                 # Get item from CartItem  
     order_qs = Cart.objects.filter(                                     # Get Cart_object
         id=cart_id,
     )
@@ -110,34 +110,26 @@ def remove_from_cart(request, product_id):
     else:
         return redirect("cart:home")    
 
-def remove_single_item_from_cart(request, slug):
-    item = get_object_or_404(Item, slug=slug)
-    order_qs = Order.objects.filter(
-        user=request.user,
-        ordered=False
+def remove_single_item_from_cart(request, product_id):
+    cart_id = request.session.get("cart_id", None)                      # Get Cart_id from request
+    item = get_object_or_404(CartItem, item=product_id, cartid=cart_id) # Get item from CartItem  
+    order_qs = Cart.objects.filter(                                     # Get Cart_object
+        id=cart_id,
     )
-    if order_qs.exists():
-        order = order_qs[0]
-        # check if the order item is in the order
-        if order.items.filter(item__slug=item.slug).exists():
-            order_item = OrderItem.objects.filter(
-                item=item,
-                user=request.user,
-                ordered=False
-            )[0]
-            if order_item.quantity > 1:
-                order_item.quantity -= 1
-                order_item.save()
-            else:
-                order.items.remove(order_item)
-            messages.info(request, "This item quantity was updated.")
-            return redirect("core:order-summary")
+    if order_qs.exists():                                               # Check if Cart_obj is available
+        order = order_qs[0]                                             # Get Cart details
+        order_items = order.items.all()                                 # Get all the items in CartItem
+        if item in order_items:                                         # Check if item is in CartItem            
+            if item.quantity == 1:
+                CartItem.objects.filter(item=product_id,cartid=cart_id).delete()  # Delete item from CartItem
+            item.quantity -= 1
+            item.save()
+            request.session['cart_items'] -= 1                          # Update 'cart_items' attribute
+            return redirect("cart:home")
         else:
-            messages.info(request, "This item was not in your cart")
-            return redirect("core:product", slug=slug)
+            return redirect("cart:home")
     else:
-        messages.info(request, "You do not have an active order")
-        return redirect("core:product", slug=slug)        
+        return redirect("cart:home")           
 
 def checkout_home(request):
     cart_obj, cart_created = Cart.objects.new_or_get(request)
