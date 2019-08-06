@@ -1,5 +1,7 @@
 from django.http import JsonResponse
-from django.shortcuts import render,redirect
+from django.contrib import messages
+
+from django.shortcuts import render,redirect,get_object_or_404
 
 from accounts.forms import LoginForm, GuestForm
 from accounts.models import GuestEmail
@@ -63,12 +65,10 @@ def cart_update(request):
             itemInCart.save()
             cart_obj.items.add(itemInCart)
             request.session['cart_items'] += 1
-            print(itemInCart.get_total_item_price())
 
         else:
             cart_obj.items.add(itemInCart)
-            request.session['cart_items'] = 1
-            print(itemInCart.get_total_item_price())
+            request.session['cart_items'] += 1
 
         if product_obj in cart_obj.products.all():
             # cart_obj.products.remove(product_obj)
@@ -89,6 +89,54 @@ def cart_update(request):
             return JsonResponse(json_data, status=200) # HttpResponse
             # return JsonResponse({"message": "Error 400"}, status=400) # Django Rest Framework
     return redirect("cart:home")
+
+def remove_from_cart(request, slug):
+    cart_id = request.session.get("cart_id", None)  # Get Cart_id from request
+    item = get_object_or_404(CartItem, item=slug)   # Get item from CartItem  
+    order_qs = Cart.objects.filter(                 # Get Cart_object
+        id=cart_id,
+    )
+    if order_qs.exists():               # Check if Cart_obj is available
+        order = order_qs[0]             # Get Cart details
+        order_items =order.items.all()  # Get all the items in CartItem
+        if item in order_items:         # Check if item is in CartItem            
+            order.items.remove(item)                                    # Remote item from Cart          
+            request.session['cart_items'] -= item.quantity              # Update 'cart_items' attribute
+            CartItem.objects.filter(item=slug,cartid=cart_id).delete()  # Delete item from CartItem
+            return redirect("cart:home")
+        else:
+            return redirect("cart:home")
+    else:
+        return redirect("cart:home")    
+
+def remove_single_item_from_cart(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+    order_qs = Order.objects.filter(
+        user=request.user,
+        ordered=False
+    )
+    if order_qs.exists():
+        order = order_qs[0]
+        # check if the order item is in the order
+        if order.items.filter(item__slug=item.slug).exists():
+            order_item = OrderItem.objects.filter(
+                item=item,
+                user=request.user,
+                ordered=False
+            )[0]
+            if order_item.quantity > 1:
+                order_item.quantity -= 1
+                order_item.save()
+            else:
+                order.items.remove(order_item)
+            messages.info(request, "This item quantity was updated.")
+            return redirect("core:order-summary")
+        else:
+            messages.info(request, "This item was not in your cart")
+            return redirect("core:product", slug=slug)
+    else:
+        messages.info(request, "You do not have an active order")
+        return redirect("core:product", slug=slug)        
 
 def checkout_home(request):
     cart_obj, cart_created = Cart.objects.new_or_get(request)

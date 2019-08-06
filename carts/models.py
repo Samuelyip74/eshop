@@ -82,7 +82,7 @@ class CartItem(models.Model):
 
 class Cart(models.Model):
     user        = models.ForeignKey(User, null=True, blank=True, on_delete='CASCADE')
-    items        = models.ManyToManyField(CartItem,blank=True)
+    items       = models.ManyToManyField(CartItem,blank=True)
     products    = models.ManyToManyField(Product, blank=True)
     subtotal    = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     total       = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
