@@ -26,10 +26,9 @@ class ProductListView(ListView):
 
     def get_context_data(self, *args, **kwargs):
             context = super(ProductListView, self).get_context_data(*args, **kwargs)
-            print(context)
             cart_obj, new_obj = Cart.objects.new_or_get(self.request)
-            # image_obj = Imagep.objects.filter(product=)
             context['cart'] = cart_obj
+            print(context)
             return context
 
     def get_queryset(self, *args, **kwargs):

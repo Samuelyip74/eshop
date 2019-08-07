@@ -34,9 +34,12 @@
                 <!-- Additional required wrapper -->
                 <div class="swiper-wrapper thumb">
                     <!-- Slides -->
-                    <div class="swiper-slide imgBox"><img src='{{ object.image.url }}' /></div>
+                    {% for img in images %}
+                        <div class="swiper-slide imgBox"><img src='{{ img.image.url }}' /></div>
+                    {% endfor %}
+                    <!-- <div class="swiper-slide imgBox"><img src='{{ object.image.url }}' /></div>
                     <div class="swiper-slide imgBox"><img src="http://placehold.it/300.png/444" /></div>
-                    <div class="swiper-slide imgBox"><img src="http://placehold.it/300.png/f1f" /></div>
+                    <div class="swiper-slide imgBox"><img src="http://placehold.it/300.png/f1f" /></div> -->
                 </div>
 
                 <!-- If we need pagination -->
@@ -55,19 +58,29 @@
             <DIV class="" style="display: flex;">
                     <DIV class="" style="flex:2;">
                         <DIV><strong>{{ object.title }}</strong></DIV>
-                        <DIV><small>Wireless Mouse for Laptop</small></DIV>
+                        {% if object.shortdesc %}
+                        <DIV><small>{{ object.shortdesc }}</small></DIV>
+                        {% endif %}
                     </DIV>
-                    <DIV style="
-                    clip-path: polygon(50% 0%, 100% 0, 99% 100%, 50% 86%, 0 100%, 0 0);
-                    background-color: red;
-                    color:white;
-                    padding: 5px 5px 0 5px;
-                    text-align: center;
-                    margin: 2px;"><strong>20%</strong></DIV>
+                    {% if object.discountedprice %}
+                        <DIV style="
+                        clip-path: polygon(50% 0%, 100% 0, 99% 100%, 50% 86%, 0 100%, 0 0);
+                        background-color: red;
+                        color:white;
+                        padding: 5px 5px 0 5px;
+                        text-align: center;
+                        margin: 2px;"><strong>{{ object.get_discount }}%</strong>
+                        </DIV>
+                    {% endif %}
                     </DIV>
                     <DIV class="">
-                        <DIV>${{ object.price }}</DIV>
-                        <DIV><del>$10.00</del></DIV>
+                        {% if object.discountedprice %}
+                            <DIV>${{ object.discountedprice }}</DIV>
+                            <DIV><del>${{ object.price }}</del></DIV>
+                        {% else %}
+                            <DIV>${{ object.price }}</DIV>
+                        {% endif %}
+
                     </DIV>
     </DIV>
 
@@ -83,13 +96,9 @@
         <DIV class="container desktop-only" style="display:flex;margin-top:80px;height:600px;background-color: white;padding-top:50px;">
             <DIV class="image-container" style="flex:2;">
                 <ul class=thumb>
-                    {% for img in images %}
-                        <li><img src='{{ img.image.url }}'/></a></li>
-                    {% endfor %}
-                    <!-- <li><img src='{{ object.image.url }}'/></a></li>
-                    <li><img src="http://placehold.it/300.png/444"/></a></li>
-                    <li><img src="http://placehold.it/300.png/cfc"/></a></li>
-                    <li><img src="http://placehold.it/300.png/444"/></a></li> -->
+                        {% for img in images %}
+                            <li><img src='{{ img.image.url }}'/></li>
+                        {% endfor %}
                 </ul>
                 <DIV class="picBox"><img style="height: 100%; width: 100%;" src='{{ images.0.image.url }}' />
                 </DIV>
@@ -102,8 +111,13 @@
                         font-family: Roboto;
                         font-size: 1.8rem;">
                         {{ object.title }}</DIV>
-                        <DIV class="row no-gutters">{Short Description}</DIV>
-                        <DIV class="row no-gutters"><small>Listed {{ object.timestamp|timesince }} ago</small></DIV>                    
+                        {% if object.shortdesc %}
+                        <DIV class="row no-gutters" style="Margin-top: 2px;
+                        margin-bottom: 2px;
+                        font-family: Roboto;
+                        font-size: 1rem;">{{ object.shortdesc }}</DIV>
+                        {% endif %}
+                        <DIV class="row no-gutters"><small>{{ object.viewed }} viewed</small></DIV>                    
                         {% if object.discountedprice %}
                         <DIV class="row no-gutters" style="Margin-top: 20px;
                         margin-bottom: 2px;

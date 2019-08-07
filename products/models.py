@@ -1,5 +1,6 @@
 import random
 import os
+import math
 from django.conf import settings
 
 from django.db import models
@@ -66,6 +67,7 @@ class Product(models.Model):
     user            = models.ForeignKey(User, null=True, blank=True, on_delete='CASCADE')
     title           = models.CharField(max_length=120)
     slug            = models.SlugField(blank=True, unique=True)
+    shortdesc       = models.CharField(max_length=120,null=True, blank=True,)
     description     = models.TextField()
     price           = models.DecimalField(decimal_places=2, max_digits=20, default=0.00)
     discountedprice = models.DecimalField(decimal_places=2, max_digits=20, default=0.00)
@@ -96,6 +98,9 @@ class Product(models.Model):
     def get_downloads(self):
         qs = self.productfile_set.all()
         return qs
+
+    def get_discount(self):
+        return 100 - math.ceil(self.discountedprice / self.price * 100)
 
 def product_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
