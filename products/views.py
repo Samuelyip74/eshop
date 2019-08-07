@@ -2,17 +2,15 @@ from django.views.generic import ListView, DetailView
 from django.shortcuts import render
 
 from carts.models import Cart
-from .models import Product
+from .models import Product, Imagep
 # Create your views here.
 
 class ProductFeaturedListView(ListView):
     template_name = "products/list.html"
 
-
     def get_queryset(self, *args, **kwargs):
         request = self.request
         return Product.objects.featured()
-
 
 class ProductFeaturedDetailView(DetailView):
     queryset = Product.objects.featured()
@@ -30,6 +28,7 @@ class ProductListView(ListView):
             context = super(ProductListView, self).get_context_data(*args, **kwargs)
             print(context)
             cart_obj, new_obj = Cart.objects.new_or_get(self.request)
+            # image_obj = Imagep.objects.filter(product=)
             context['cart'] = cart_obj
             return context
 
@@ -44,7 +43,10 @@ class ProductDetailSlugView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(ProductDetailSlugView, self).get_context_data(*args, **kwargs)
         cart_obj, new_obj = Cart.objects.new_or_get(self.request)
+        image_obj = Imagep.objects.filter(product=self.object)
         context['cart'] = cart_obj
+        context['images'] = image_obj
+        print(context)
         return context
 
     '''

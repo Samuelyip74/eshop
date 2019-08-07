@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product
+from .models import Product,Imagep
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'slug', 'is_digital']
@@ -8,3 +8,5 @@ class ProductAdmin(admin.ModelAdmin):
         model = Product
 
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Imagep)
+

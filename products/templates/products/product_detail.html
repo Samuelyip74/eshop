@@ -107,12 +107,18 @@
                         font-weight: bold;
                         font-family: Roboto;
                         font-size: 1.5rem;">${{ object.discountedprice }}</DIV>
-                        {% endif %}
+                        <DIV class="row no-gutters" style="Margin-top: 2px;
+                        margin-bottom: 20px;
+                        font-weight: bold;
+                        font-family: Roboto;
+                        font-size: 1.5rem;"><del>${{ object.price }}</del></DIV>
+                        {% else %}
                         <DIV class="row no-gutters" style="Margin-top: 2px;
                         margin-bottom: 20px;
                         font-weight: bold;
                         font-family: Roboto;
                         font-size: 1.5rem;">${{ object.price }}</DIV>
+                        {% endif %}
                         <DIV class="row no-gutters" style="width:100%;">
                         <DIV class="container" style="display:flex;width:100%;margin:0;padding:0;">
                             <DIV class="quantity-button">
@@ -139,8 +145,16 @@
 
         <DIV class="container desktop-only" style="background-color: white;">
             <DIV class="container no-gutters">
-                <DIV><strong>PRODUCT DESCRIPTION</strong></DIV>
-                <DIV style="min-height: 200px;">{{ object.description }}</DIV>
+                <DIV style="Margin-top: 20px;
+                margin-bottom: 5px;
+                font-weight: bold;
+                font-family: Roboto;
+                font-size: 1.8rem;">Product Description</DIV>
+                <DIV style="Margin-top: 10px;
+                margin-bottom: 5px;
+                font-family: Roboto;
+                min-height: 200px;
+                font-size: 1.2rem;">{{ object.description }}</DIV>
             </DIV>
         </DIV>
     </DIV>

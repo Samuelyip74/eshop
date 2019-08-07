@@ -61,7 +61,6 @@ class ProductManager(models.Manager):
     def search(self, query):
         return self.get_queryset().active().search(query)
 
-
 # Create your models here.
 class Product(models.Model):
     user            = models.ForeignKey(User, null=True, blank=True, on_delete='CASCADE')
@@ -103,3 +102,11 @@ def product_pre_save_receiver(sender, instance, *args, **kwargs):
         instance.slug = unique_slug_generator(instance)
 
 pre_save.connect(product_pre_save_receiver, sender=Product) 
+
+
+class Imagep(models.Model):
+    product = models.ForeignKey(Product, default=None, on_delete='CASCADE')
+    image   = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.image} of {self.product}"
