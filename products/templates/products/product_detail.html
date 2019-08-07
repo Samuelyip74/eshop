@@ -97,12 +97,22 @@
                         margin-bottom: 5px;
                         font-weight: bold;
                         font-family: Roboto;
-                        font-size: 1.5rem;">
+                        font-size: 1.8rem;">
                         {{ object.title }}</DIV>
                         <DIV class="row no-gutters">{Short Description}</DIV>
-                        <DIV class="row no-gutters">${{ object.price }}</DIV>
-                        <DIV class="row no-gutters">{Usual Price}</DIV>
                         <DIV class="row no-gutters"><small>Listed {{ object.timestamp|timesince }} ago</small></DIV>                    
+                        {% if object.discountedprice %}
+                        <DIV class="row no-gutters" style="Margin-top: 20px;
+                        margin-bottom: 2px;
+                        font-weight: bold;
+                        font-family: Roboto;
+                        font-size: 1.5rem;">${{ object.discountedprice }}</DIV>
+                        {% endif %}
+                        <DIV class="row no-gutters" style="Margin-top: 2px;
+                        margin-bottom: 20px;
+                        font-weight: bold;
+                        font-family: Roboto;
+                        font-size: 1.5rem;">${{ object.price }}</DIV>
                         <DIV class="row no-gutters" style="width:100%;">
                         <DIV class="container" style="display:flex;width:100%;margin:0;padding:0;">
                             <DIV class="quantity-button">
