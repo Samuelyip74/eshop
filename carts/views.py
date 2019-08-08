@@ -63,12 +63,16 @@ def cart_update(request):
         if new_item is False:
             itemInCart.quantity +=1
             itemInCart.save()
-            cart_obj.items.add(itemInCart)
+            cart_obj.items.add(itemInCart)            
             request.session['cart_items'] += 1
+            cart_obj.total = cart_obj.get_total()
+            cart_obj.save()
 
         else:
             cart_obj.items.add(itemInCart)
             request.session['cart_items'] += 1
+            cart_obj.total = cart_obj.get_total()
+            cart_obj.save()
 
         if product_obj in cart_obj.products.all():
             # cart_obj.products.remove(product_obj)
