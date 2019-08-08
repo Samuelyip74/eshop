@@ -2,9 +2,11 @@
 
 
 {% block content %}
-<DIV class=container style='padding-top: 150px; padding-bottom: 100px'>
-    <div class="card text-center">
-        <div class="card-body">
+{% include 'header.html' %}
+
+<DIV class="container">
+    <div class="card-order text-center">
+        <div class="card-body" style="background-color: white;margin:20px;">
           <h5 class="card-title">Thank you</h5>
           <p class="card-text">Your order is now completed</p>
           <h5 class="card-text">Order Summary</h5>
@@ -12,5 +14,5 @@
         </div>
       </div>
 </div>
-
+{% include 'footer.html' %}
 {% endblock %}

@@ -123,9 +123,11 @@ Side Navigation Bar Styling
     }
 }
 
-.card {
+.card-order {
+    padding-top: 150px; padding-bottom: 100px;
     @media screen and (min-width: $break-large) {
-        width:calc(100%/6) !important;
+        width:70%;
+        margin:0 auto;
     }  
 }
 

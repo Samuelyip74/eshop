@@ -98,9 +98,15 @@ Side Navigation Bar Styling
   }
 }
 
+.card-order {
+  padding-top: 150px;
+  padding-bottom: 100px;
+}
+
 @media screen and (min-width: 1024px) {
-  .card {
-    width: calc(100%/6) !important;
+  .card-order {
+    width: 70%;
+    margin: 0 auto;
   }
 }
 
