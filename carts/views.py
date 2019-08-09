@@ -96,17 +96,19 @@ def cart_update(request):
 
 # remote item from cart
 def remove_from_cart(request, product_id):
-    cart_id = request.session.get("cart_id", None)                      # Get Cart_id from request
-    item = get_object_or_404(CartItem, item=product_id)                 # Get item from CartItem  
-    order_qs = Cart.objects.filter(                                     # Get Cart_object
+    cart_id = request.session.get("cart_id", None)                          # Get Cart_id from request
+    order_qs = Cart.objects.filter(                                         # Get Cart_object
         id=cart_id,
+        items=product_id
     )
-    if order_qs.exists():                                               # Check if Cart_obj is available
-        order = order_qs[0]                                             # Get Cart details
-        order_items =order.items.all()                                  # Get all the items in CartItem
-        if item in order_items:                                         # Check if item is in CartItem            
-            order.items.remove(item)                                    # Remote item from Cart          
-            request.session['cart_items'] -= item.quantity              # Update 'cart_items' attribute
+    item = get_object_or_404(CartItem, item=product_id)                     # Get item from CartItem  
+
+    if order_qs.exists():                                                   # Check if Cart_obj is available
+        order = order_qs[0]                                                 # Get Cart details
+        order_items =order.items.all()                                      # Get all the items in CartItem
+        if item in order_items:                                             # Check if item is in CartItem            
+            order.items.remove(item)                                        # Remote item from Cart          
+            request.session['cart_items'] -= item.quantity                  # Update 'cart_items' attribute
             CartItem.objects.filter(item=product_id,cartid=cart_id).delete()  # Delete item from CartItem
             return redirect("cart:home")
         else:
